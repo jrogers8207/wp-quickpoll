@@ -1,19 +1,22 @@
 <?php
-include 'data.php';
 
-$row = 0;
-function appendPoll($results, $row): void
+/* makes the poll */
+function displayBox()
 {
-    $getName = $getUserInput;
-    $row++;
-    array_push($results, 0);
-    go_to_html_form_somehow();
+    ?>
+    <form action='data.php' method="POST"><?php
+        $id = get_the_ID();
+        $list = get_post_meta($id, '', false);
+        foreach ($list as $value) {
+            ?>
+            <input type="radio" name="poll" value="<?php echo $value; ?>"><?php echo $value; ?><br>
+            <?php
+        }
+        ?>
+    </form>
+    <?php
+    new_results($list);
 }
 
-?>
-<form action="send_to_Data.php" method="post">
-    <div>
-        <input type="radio" name="poll" id="poll<?php echo $row; ?>" value="<?php echo $ ?>"/>
-        <label for="poll<?php echo $row; ?>"><?php echo $getName; ?></label>
-        <br>
-    </div>
+add_action('get_post_meta', 'displayBox');
+/* Doesn't seem to work. HTML does not mesh with WordPress post editor? */
